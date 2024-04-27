@@ -1,3 +1,3 @@
 #!/bin/sh
 
-echo "test"
+echo "Confirmation that this is working.. Mostly"

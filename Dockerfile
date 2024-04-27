@@ -5,7 +5,7 @@ FROM alpine:latest
 WORKDIR /app
 
 # Copy a simple script that prints "Hello, World!" into the container
-COPY hello.sh .
+COPY /src/hello.sh .
 
 # Make the script executable
 RUN chmod +x hello.sh
