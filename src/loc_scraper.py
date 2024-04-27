@@ -2,35 +2,35 @@
 from __future__ import print_function
 from bs4 import BeautifulSoup
 import requests
-import lxml.etree as etree
-import xml.etree.ElementTree as ET
+# import lxml.etree as etree
+# import xml.etree.ElementTree as ET
 import json
-import pandas as pd
+# import pandas as pd
 import os
 import time
-import random
-import math
+# import random
+# import math
 from pprint import pprint
 #import load_vars as lv
 import html
 import yaml
 from yaml import Loader, Dumper
-import glob
-import datetime
+# import glob
+# import datetime
 import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google.oauth2 import service_account
-from googleapiclient.http import MediaIoBaseDownload, MediaFileUpload
+# from googleapiclient.discovery import build
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from google.auth.transport.requests import Request
+# from google.oauth2.credentials import Credentials
+# from google.oauth2 import service_account
+# from googleapiclient.http import MediaIoBaseDownload, MediaFileUpload
 from flatten_json import flatten
-import networkx as nx
-import matplotlib
-from networkx.readwrite import json_graph
-import matplotlib.pyplot as plt
+# import networkx as nx
+# import matplotlib
+# from networkx.readwrite import json_graph
+# import matplotlib.pyplot as plt
 import tracemalloc
-import os
+# import os
 #from ratelimiter import RateLimiter
 
 
@@ -50,6 +50,7 @@ class search_results_page():
 
     def __init__(self,base_url = "https://www.loc.gov/collections",collection = "united-states-reports",json_parameter = "fo=json",results_per_page = "c=79",query_param = "?",page_param ="sp=",page_num = 1):
         #pprint(num_columns)
+        print("initializing Search Result Generator")
         self.search_url = self.create_search_url(base_url,collection,json_parameter,results_per_page,query_param,page_param,page_num)
         self.response = self.request_data()
         self.response_json = self.response_to_json()
@@ -489,7 +490,8 @@ def write_last_page_num(page_num):
         f.write(str(page_num))
 
 def main():
-    tracemalloc.start()
+    print('Starting Run')
+    # tracemalloc.start()
     #rate_limiter = RateLimiter(max_calls=1, period=60)
     #cd to output
     #result = create_search_results_page_object()
@@ -498,6 +500,7 @@ def main():
 
     for obj in search_result_generator():   
         page_num = obj.page_num
+        print("testing")
         with cd("output_2"):
             #print('hahaha')
             obj.to_json(file_num = page_num)
@@ -510,11 +513,11 @@ def main():
 
 
     
-    snapshot = tracemalloc.take_snapshot()
-    top_stats = snapshot.statistics('lineno')
-    print("[ Top 10 ]")
-    for stat in top_stats[:10]:
-        print(stat)
+    # snapshot = tracemalloc.take_snapshot()
+    # top_stats = snapshot.statistics('lineno')
+    # print("[ Top 10 ]")
+    # for stat in top_stats[:10]:
+        # print(stat)
 
 
 if __name__ == "__main__":
