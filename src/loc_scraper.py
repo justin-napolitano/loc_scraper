@@ -1,6 +1,6 @@
 #library_of_congress_scraper.py
 from __future__ import print_function
-from gcpclient import GCSClient
+from gcputils.gcpclient import GCSClient
 from bs4 import BeautifulSoup
 import requests
 # import lxml.etree as etree
@@ -17,7 +17,7 @@ import html
 import yaml
 from yaml import Loader, Dumper
 # import glob
-# import datetime
+# import datetimeResult
 import os.path
 # from googleapiclient.discovery import build
 # from google_auth_oauthlib.flow import InstalledAppFlow
