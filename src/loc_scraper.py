@@ -1,5 +1,6 @@
 #library_of_congress_scraper.py
 from __future__ import print_function
+from gcpclient import GCSClient
 from bs4 import BeautifulSoup
 import requests
 # import lxml.etree as etree
@@ -61,6 +62,7 @@ class search_results_page():
     def to_json(self, file_name = 'result_',file_num = 0, extension =".json"):
         output_name = file_name + str(file_num)
         output_name = output_name + extension
+        print(json.dumps(self.response_json))
         with open(output_name, 'w') as outfile:
             json.dump(self.response_json, outfile)
 
@@ -490,6 +492,25 @@ def write_last_page_num(page_num):
         f.write(str(page_num))
 
 def main():
+    #hardcoding this.. idk if it is better to add it to the config or not. 
+    # i have thoughts on both. 
+    # just hardcoding to limit th enumber of htings to be aware of when working with this script
+    project_id = 'smart-axis-421517'
+    gcs = GCSClient(project_id, credentials_path=None)
+
+    # List buckets to test client authorization
+    buckets = gcs.list_buckets()
+    print("Buckets:", buckets)
+
+    # creating a new bucket if it doesn't exist
+    bucket_name = "loc-scraper"
+
+    bucket = gcs.create_bucket(bucket_name=bucket_name)
+    print(bucket)
+
+    
+    # quit()
+    #client = gcpclient()
     print('Starting Run')
     # tracemalloc.start()
     #rate_limiter = RateLimiter(max_calls=1, period=60)
@@ -499,11 +520,15 @@ def main():
     #    result.write_to_file(data = result.dict_of_dicts, file_num = 1)
 
     for obj in search_result_generator():   
-        page_num = obj.page_num
+        page_num = str(obj.page_num)
         print("testing")
-        with cd("output_2"):
+        destination_blob_name = "-".join(["result",page_num,]) + ".json"
+        # with cd("output_2"):
             #print('hahaha')
-            obj.to_json(file_num = page_num)
+        file_string = json.dumps(obj.response_json)
+        blob = gcs.upload_to_bucket_from_memory(bucket_name, file_string, destination_blob_name)
+        print(blob)
+        obj.to_json(file_num = page_num)
             #obj.write_graphml(file_num= page_num)
             #obj.to_pandas()
             #obj.write_to_file(data = obj.dict_of_dicts, file_num = page_num)
