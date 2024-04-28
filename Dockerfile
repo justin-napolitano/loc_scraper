@@ -22,9 +22,10 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY ./src /app
+COPY requirements.txt /app
 
 # Install any needed dependencies specified in requirements.txt
-RUN pip install --no-cache-dir google-cloud-storage
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Run the Python script when the container launches
-CMD ["python", "gcpclient.py"]
+CMD ["python", "loc_scraper.py"]

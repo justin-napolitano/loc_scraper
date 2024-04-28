@@ -14,8 +14,8 @@ import time
 from pprint import pprint
 #import load_vars as lv
 import html
-import yaml
-from yaml import Loader, Dumper
+# import yaml
+# from yaml import Loader, Dumper
 # import glob
 # import datetimeResult
 import os.path
@@ -30,7 +30,7 @@ from flatten_json import flatten
 # import matplotlib
 # from networkx.readwrite import json_graph
 # import matplotlib.pyplot as plt
-import tracemalloc
+# import tracemalloc
 # import os
 #from ratelimiter import RateLimiter
 
