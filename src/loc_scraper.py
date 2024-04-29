@@ -455,7 +455,7 @@ def search_result_generator(condition = True, page_num=1):
     column_lookup_table = {}
     while condition ==True:
         #pprint(num_columns)
-        time.sleep(61)
+        time.sleep(10)
         search_results_page_object = create_search_results_page_object(page_num = page_num)
         if search_results_page_object.next_url != None:
             condition = True
@@ -517,7 +517,7 @@ def main():
     # just hardcoding to limit th enumber of htings to be aware of when working with this script
     project_id = 'smart-axis-421517'
     last_page_num = read_last_page_num() + 1
-    print(f"Starting at {last_page_num}")
+    # print(f"Starting at {last_page_num}")
 
     gcs = GCSClient(project_id, credentials_path=None)
 
@@ -543,7 +543,9 @@ def main():
     last_blob = gcs.put_blob_from_string(bucket_name, last_page_blob_data, last_page_blob_name, overwrite = False)
     if last_blob:
         print("Blob contents:")
-        print(last_blob.download_as_string().decode("utf-8"))
+        last_blob_data = int(last_blob.download_as_string().decode("utf-8")) + 1
+        print(last_blob_data)
+        print(type(last_blob_data))
 
     print('Starting Run')
     # tracemalloc.start()
@@ -553,7 +555,7 @@ def main():
     #with cd("output"):d
     #    result.write_to_file(data = result.dict_of_dicts, file_num = 1)
 
-    for obj in search_result_generator(page_num = last_page_num):   
+    for obj in search_result_generator(page_num = last_blob_data):   
         page_num = str(obj.page_num)
         print("testing")
         destination_blob_name = "-".join(["result",page_num,]) + ".json"
@@ -567,8 +569,16 @@ def main():
             #obj.to_pandas()
             #obj.write_to_file(data = obj.dict_of_dicts, file_num = page_num)
             #obj.to_csv()
+        #the following commenti sa vestigal of a previous run. This can likely be dropped in next official push
+        # actually i am keeping it to keep the base case on local runs up to date
         write_last_page_num(page_num)
-        print("{} Search Results Crawled".format(page_num))
+        last_blob = gcs.put_blob_from_string(bucket_name, str(page_num), last_page_blob_name, overwrite = True)
+        if last_blob:
+            print("Blob contents:")
+            last_blob_data = int(last_blob.download_as_string().decode("utf-8"))
+            print(last_blob_data)
+            print(type(int(last_blob_data)))
+            print("{} Search Results Crawled".format(page_num))
 
 
     
