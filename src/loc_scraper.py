@@ -560,7 +560,7 @@ def main():
         # with cd("output_2"):
             #print('hahaha')
         file_string = json.dumps(obj.response_json)
-        blob = gcs.upload_to_bucket_from_memory(bucket_name, file_string, destination_blob_name)
+        blob = gcs.put_blob_from_string(bucket_name, file_string, destination_blob_name)
         print(blob)
         # obj.to_json(file_num = page_num)
             #obj.write_graphml(file_num= page_num)
