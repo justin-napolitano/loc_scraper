@@ -61,7 +61,7 @@ gcloud run jobs execute supreme-court-scraper
 
 ### Putting it all together
 
-In a perfect world the following should work. Note that src/.env should be set with your environmental variables such as ```$GCPPROJECTID```
+In a perfect world the following should work. Note that src/.env should be set with your environmental variables such as ```$GCPPROJECTID``` 
 
 ```bash
 source src/.env \

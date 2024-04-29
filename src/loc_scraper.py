@@ -34,6 +34,10 @@ from flatten_json import flatten
 # import os
 #from ratelimiter import RateLimiter
 
+# Imports the Cloud Logging client library
+import google.cloud.logging
+import logging
+
 
 class cd:
     """Context manager for changing the current working directory"""
@@ -455,7 +459,7 @@ def search_result_generator(condition = True, page_num=1):
     column_lookup_table = {}
     while condition ==True:
         #pprint(num_columns)
-        time.sleep(10)
+        time.sleep(61)
         search_results_page_object = create_search_results_page_object(page_num = page_num)
         if search_results_page_object.next_url != None:
             condition = True
@@ -520,15 +524,26 @@ def main():
     # print(f"Starting at {last_page_num}")
 
     gcs = GCSClient(project_id, credentials_path=None)
+    
+    # Instantiates a cloud loggingclient
+    client = google.cloud.logging.Client()
+
+    # Retrieves a Cloud Logging handler based on the environment
+    # you're running in and integrates the handler with the
+    # Python logging module. By default this captures all logs
+    # at INFO level and higher
+    client.setup_logging()
 
     # List buckets to test client authorization
     buckets = gcs.list_buckets()
     print("Buckets:", buckets)
+    logging.info(f"Buckets: {buckets}")
 
     # creating a new bucket if it doesn't exist
     bucket_name = "loc-scraper"
 
     bucket = gcs.create_bucket(bucket_name=bucket_name)
+    logging.info(bucket)
     print(bucket)
 
     # this will create a last_page blob if it does not already exist. The intent of this is pull locally and drop whatever the last local run says into the blob 
@@ -548,6 +563,7 @@ def main():
         print(type(last_blob_data))
 
     print('Starting Run')
+    logging.info("Starting Run")
     # tracemalloc.start()
     #rate_limiter = RateLimiter(max_calls=1, period=60)
     #cd to output
@@ -557,13 +573,14 @@ def main():
 
     for obj in search_result_generator(page_num = last_blob_data):   
         page_num = str(obj.page_num)
-        print("testing")
+        # print("testing")
+        logging.info(f"Starting page:{page_num}")
         destination_blob_name = "-".join(["result",page_num,]) + ".json"
         # with cd("output_2"):
             #print('hahaha')
         file_string = json.dumps(obj.response_json)
         blob = gcs.put_blob_from_string(bucket_name, file_string, destination_blob_name)
-        print(blob)
+        # print(blob)
         # obj.to_json(file_num = page_num)
             #obj.write_graphml(file_num= page_num)
             #obj.to_pandas()
@@ -574,11 +591,13 @@ def main():
         write_last_page_num(page_num)
         last_blob = gcs.put_blob_from_string(bucket_name, str(page_num), last_page_blob_name, overwrite = True)
         if last_blob:
-            print("Blob contents:")
+            # print("Blob contents:")
             last_blob_data = int(last_blob.download_as_string().decode("utf-8"))
-            print(last_blob_data)
-            print(type(int(last_blob_data)))
-            print("{} Search Results Crawled".format(page_num))
+            # print(last_blob_data)
+            logging.info(f"blob:contents:{last_blob_data}")
+            # print(type(int(last_blob_data)))
+            # print("{} Search Results Crawled".format(page_num))
+            logging.info("{} Search Results Crawled".format(page_num))
 
 
     
