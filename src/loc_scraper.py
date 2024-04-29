@@ -531,9 +531,20 @@ def main():
     bucket = gcs.create_bucket(bucket_name=bucket_name)
     print(bucket)
 
-    
-    # quit()
-    #client = gcpclient()
+    # this will create a last_page blob if it does not already exist. The intent of this is pull locally and drop whatever the last local run says into the blob 
+    # Overwrite is not true therefore we will not overwrite if there is a blob already instantiated. This is a bit of a base case.
+    # it does depend on a last_page.txt document locally but that really doesn't matter too much and can be updated in the next build to not be scripted into the code
+
+    last_page_blob_name = 'last_page.txt'
+    last_page_blob_data = str(last_page_num)
+
+    #this will attempt to create. if it already exists it will return the blob that was previously generated
+
+    last_blob = gcs.put_blob_from_string(bucket_name, last_page_blob_data, last_page_blob_name, overwrite = False)
+    if last_blob:
+        print("Blob contents:")
+        print(last_blob.download_as_string().decode("utf-8"))
+
     print('Starting Run')
     # tracemalloc.start()
     #rate_limiter = RateLimiter(max_calls=1, period=60)
