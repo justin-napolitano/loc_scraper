@@ -4,9 +4,7 @@ date = "2024-04-28"
 description = "Running a scraper as a gcp cloud run job"
 author = "Justin Napolitano"
 tags = ['git', 'python', 'gcp', 'bash','workflow automation', 'docker','containerization']
-image = "post-image.jpeg"
-featuredimage = "post-image.jpeg"
-thumbnail = "post-image.jpeg"
+images = ["images/feature-gcp.png"]
 +++
 
 
