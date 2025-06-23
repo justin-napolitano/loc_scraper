@@ -1,31 +1,20 @@
-# # Use the Alpine Linux base image
-# FROM alpine:latest
+FROM python:3.11-slim
 
-# # Set the working directory inside the container
-# WORKDIR /app
-
-# # Copy a simple script that prints "Hello, World!" into the container
-# COPY /src/hello.sh .
-
-# # Make the script executable
-# RUN chmod +x hello.sh
-
-# # Define the command to run when the container starts
-# CMD ["./hello.sh"]
-
-
-# Use the official Python image from Docker Hub
-FROM python:3.10-slim
-
-# Set the working directory in the container
+# Create working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY ./src /app
-COPY requirements.txt /app
-
-# Install any needed dependencies specified in requirements.txt
+# Copy dependencies and install
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Run the Python script when the container launches
-CMD ["python", "loc_scraper.py"]
+# Copy your source code
+COPY src/ ./src/
+
+# Default to src directory
+WORKDIR /app/src
+
+# Ensure output dir exists inside the container
+RUN mkdir -p /app/src/output
+
+# Default command (can override at runtime)
+CMD ["python", "loc_local.py"]

@@ -52,16 +52,18 @@ class search_results_page:
         query = f"{query_param}{json_parameter}&{results_per_page}&{page_query}"
         return f"{base_url}/{collection}/{query}"
 
-def search_result_generator(condition=True, page_num=1):
-    while condition:
+def search_result_generator(start_page=1, end_page=None):
+    page_num = start_page
+    while True:
+        if end_page is not None and page_num > end_page:
+            break
         time.sleep(1)
         obj = create_search_results_page_object(page_num=page_num)
-        if obj.next_url:
-            yield obj
-            page_num += 1
-        else:
-            yield obj
+        yield obj
+        if not obj.next_url:
             break
+        page_num += 1
+
 
 def create_search_results_page_object(**kwargs):
     return search_results_page(**kwargs)
@@ -93,26 +95,30 @@ def parse_args():
         "--start-page", type=int, default=None,
         help="Page number to start scraping from (overrides last_page.txt)"
     )
+    parser.add_argument(
+        "--end-page", type=int, default=None,
+        help="Optional page number to stop scraping after"
+    )
     return parser.parse_args()
+
 
 def main():
     args = parse_args()
     ensure_output_dir()
 
-    # Determine start page
-    if args.start_page:
-        start_page = args.start_page
-        print(f"[CLI] Starting from page {start_page}")
-    else:
-        start_page = read_last_page_num()
-        print(f"[Checkpoint] Resuming from page {start_page}")
+    # Determine starting point
+    start_page = args.start_page if args.start_page else read_last_page_num()
+    end_page = args.end_page
 
-    for obj in search_result_generator(page_num=start_page):
+    print(f"Scraping from page {start_page}" + (f" to {end_page}" if end_page else ""))
+
+    for obj in search_result_generator(start_page=start_page, end_page=end_page):
         page_num = obj.page_num
         print(f"Processing page: {page_num}")
         save_page_to_local_file(obj.response_json, page_num)
         write_last_page_num(page_num)
         print(f"Completed page: {page_num}\n")
+
 
 if __name__ == "__main__":
     main()
