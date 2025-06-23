@@ -17,4 +17,4 @@ WORKDIR /app/src
 RUN mkdir -p /app/src/output
 
 # Default command (can override at runtime)
-CMD ["python", "loc_local.py"]
+ENTRYPOINT ["python", "loc_local.py"]
