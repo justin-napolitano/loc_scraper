@@ -1,12 +1,27 @@
 ---
-slug: "github-loc-scraper"
-title: "loc_scraper"
-repo: "justin-napolitano/loc_scraper"
-githubUrl: "https://github.com/justin-napolitano/loc_scraper"
-generatedAt: "2025-11-23T09:15:27.127515Z"
-source: "github-auto"
+slug: github-loc-scraper
+title: Library of Congress Supreme Court Case Scraper Using Cloud Run
+repo: justin-napolitano/loc_scraper
+githubUrl: https://github.com/justin-napolitano/loc_scraper
+generatedAt: '2025-11-23T09:15:27.127515Z'
+source: github-auto
+summary: >-
+  Technical overview of a Python scraper for US Supreme Court case metadata from the Library of
+  Congress, deployed via Google Cloud Run and Cloud Storage.
+tags:
+  - library-of-congress
+  - supreme-court
+  - python
+  - cloud-run
+  - web-scraping
+  - legal-data
+seoPrimaryKeyword: supreme court case scraper
+seoSecondaryKeywords:
+  - library of congress API
+  - python web scraper
+  - google cloud run
+seoOptimized: true
 ---
-
 
 # Library of Congress Supreme Court Case Scraper: Technical Overview
 
@@ -46,3 +61,4 @@ The project includes multiple bash scripts to facilitate building, deploying, an
 ## Summary
 
 This project demonstrates a practical approach to large-scale legal data collection using cloud-native technologies. It balances simplicity in scraping with robustness in deployment and storage, providing a foundational dataset for legal research applications. Future enhancements will focus on enriching the dataset, automating workflows, and integrating analytical tools.
+
