@@ -21,6 +21,12 @@ seoSecondaryKeywords:
   - python web scraper
   - google cloud run
 seoOptimized: true
+topicFamily: automation
+topicFamilyConfidence: 0.9
+topicFamilyNotes: >-
+  The post focuses on building a Python scraper automated via Google Cloud Run jobs, including
+  deployment with Docker and bash scripts, aligning well with automation of build, deployment, and
+  cloud workflows.
 ---
 
 # Library of Congress Supreme Court Case Scraper: Technical Overview
@@ -61,4 +67,5 @@ The project includes multiple bash scripts to facilitate building, deploying, an
 ## Summary
 
 This project demonstrates a practical approach to large-scale legal data collection using cloud-native technologies. It balances simplicity in scraping with robustness in deployment and storage, providing a foundational dataset for legal research applications. Future enhancements will focus on enriching the dataset, automating workflows, and integrating analytical tools.
+
 
