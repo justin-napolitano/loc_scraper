@@ -1,20 +1,26 @@
 ---
 slug: github-loc-scraper
 id: github-loc-scraper
-title: loc_scraper
+title: Python Scraper for US Supreme Court Case Data
 repo: justin-napolitano/loc_scraper
 githubUrl: https://github.com/justin-napolitano/loc_scraper
 generatedAt: '2025-11-24T21:35:31.540Z'
 source: github-auto
 summary: >-
-  A Python-based scraper designed to extract US Supreme Court case data from the
-  Library of Congress digital collections. The project integrates with Google
-  Cloud Platform (GCP) to run scraping jobs as scalable Cloud Run jobs, storing
-  results in GCP buckets for downstream processing.
-tags: []
-seoPrimaryKeyword: ''
-seoSecondaryKeywords: []
-seoOptimized: false
+  A Python scraper that extracts US Supreme Court case data from the Library of
+  Congress and deploys on Google Cloud Platform.
+tags:
+  - python
+  - docker
+  - beautifulsoup
+seoPrimaryKeyword: us supreme court data scraper
+seoSecondaryKeywords:
+  - python web scraping
+  - google cloud storage
+  - docker deployment
+  - cloud run jobs
+  - library of congress api
+seoOptimized: true
 topicFamily: null
 topicFamilyConfidence: null
 kind: project
